@@ -718,9 +718,9 @@ def DIRECTORY(v):
     child_broc_dir = os.path.abspath(os.path.join(env.ModulePath(), v))
     if env.ModulePath() not in child_broc_dir:
             raise BrocArgumentIllegalError("DIRECTORY(%s) is wrong: %s not in %s" % \
-                                          (child_broc_dir, env.ModulePath())
+                                          (child_broc_dir, env.ModulePath()))
 
-    child_broc_file = os.path.join(parent.module.root_path, v, 'BROC')
+    child_broc_file = os.path.join(env.Module().root_path, v, 'BROC')
     if sys.argv[0] == 'PLANISH':
         parent = sys.argv[1]
         if not os.path.exists(child_broc_file):
@@ -731,6 +731,8 @@ def DIRECTORY(v):
             traceback.print_exc()
             raise BrocArgumentIllegalError(err)
     else: # find all targets to build
+        env = Environment.GetCurrent()
+        child_broc_file = os.path.join(env._module.root_path, v, 'BROC')
         if not os.path.exists(child_broc_file):
             raise BrocArgumentIllegalError('Not found %s in Tag Directory(%s)' % (child_broc_file, v))
         # Log.Log().LevPrint("INFO", 'add sub directory (%s) for module %s' % (v, env._module.module_cvspath)) 
@@ -917,6 +919,8 @@ class BrocLoader(object):
                 if not broc_file:
                     self._lack_broc.add(parent.module.origin_config)
                     continue
+                env = Environment.Environment(parent.module)
+                Environment.SetCurrent(env)
                 try:
                     execfile(broc_file)
                 except BaseException as err:
@@ -959,8 +963,8 @@ class BrocLoader(object):
                 return abs path of BROC file if download success
                 return None if download failed
             """
-            broc_path = None
-            cmd = None
+            broc_path = ""
+            cmd = ""
             # for svn 
             # Log.Log().LevPrint("MSG", 'download BROC %s' % node.module.url)
             if node.module.repo_kind == BrocModule_pb2.Module.SVN:
@@ -975,8 +979,9 @@ class BrocLoader(object):
                 broc_path = os.path.join(node.module.workspace, node.module.module_cvspath, 'BROC')
                 broc_dir = os.path.dirname(broc_path)
                 if not os.path.exists(broc_path):
-                    cmd += "git clone %s %s &&" \
-                          % ("%s.git" % node.module.url, "%s" % broc_dir)
+                    # cmd += "git clone %s %s &&" \
+                    #       % ("%s.git" % node.module.url, "%s" % broc_dir)
+                    cmd += "git clone %s %s" % (node.module.url, broc_dir)
 
                     if node.module.br_name and node.module.br_name != 'master':
                         br_name = node.module.br_name

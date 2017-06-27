@@ -14,7 +14,7 @@
  *  
  **/
 
-#include "baidu/broc/example/foo/lib.h"
+#include "chinesejie/broc/example/foo/lib.h"
 
 std::string joinstring(std::string a, std::string b)
 {

@@ -105,11 +105,20 @@ class Planish(object):
         """
         self.logger.LevPrint('MSG', 'Analyzing dependency ...')
         # create dependent tree
+        broc_loader = Syntax.BrocLoader()
         try:
-            Syntax.BrocLoader().LoadBROC()
+            # Syntax.BrocLoader().LoadBROC()
+            broc_loader.LoadBROC()
         except BaseException as err:
             self.logger.LevPrint('ERROR', '%s' % err)
             return False
+
+        if len(broc_loader.LackBrocModules()) != 0:
+            self.logger.LevPrint('ERROR', "Can't find BROC in following module(s):")
+            for cvspath in broc_loader.LackBrocModules():
+                self.logger.LevPrint('ERROR', "\t%s" % cvspath)
+            return False
+
         # check graph has circles
         (ret, msg) = BrocTree.BrocTree().HasCircle()
         if ret:

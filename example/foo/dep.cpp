@@ -16,12 +16,12 @@
 
 #include <stdio.h>
 
-#include "brocbuild/function/src/function.h"
+//#include "brocbuild/function/src/function.h"
 
 int main()
 {
-    function myfunction;
-    printf("Hello world\nUse function module?\n%s\n", \
-            myfunction.is_function()? "Yes": "No");
+//    function myfunction;
+//    printf("Hello world\nUse function module?\n%s\n", \
+//            myfunction.is_function()? "Yes": "No");
     return 0;
 }

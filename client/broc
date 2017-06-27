@@ -22,6 +22,8 @@ import Queue
 import Options
 import Scratch
 import TaskMaster
+from dependency.BrocConfig import BrocConfigError
+
 broc_dir = os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..'))
 sys.path.insert(0, broc_dir)
 

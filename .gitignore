@@ -2,3 +2,6 @@
 *pb2.py
 *.pyc
 .gitreview
+*.DEPS
+.idea/
+output
