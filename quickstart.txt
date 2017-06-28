@@ -1,0 +1,2 @@
+1）./broc.py scratch 可以在当前目录下生成一个 示例文件BROC
+
